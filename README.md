@@ -45,5 +45,5 @@ Code sample
     KoKoKoKo Kud-Kudah KoKoKoKo kudah kO kud-Kudah kO Kukarek
     kOkOkOkOkO Kukarek Kukarek kOkOkOkOkOkOkO
     Kukarek
-    
-[Result](http://ideone.com/1Jenb)
+
+[Perl demo](http://ideone.com/1Jenb)
