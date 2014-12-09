@@ -29,27 +29,23 @@ sub cycle {
 
 while (<>) {
   while (1) {
-    if (/\G[\s!?.,:;()-]+/gc) { # skip whitespace and punctuation
-    } elsif (/\Gz+/gci) {
-      $comment++;
-    } elsif ($comment and /\G.*?(morning)?/gc) {
-      $comment-- if $1;
-    } elsif (/\G(Ko|kO|Kudah|kudah|Kukarek)/gc) {
+    if (/\G[\s!?.,:;()-]+/gc) { } # skip whitespace and punctuation
+    elsif (/\Gz+/gci) { $comment++ }
+    elsif ($comment and /\G.*?(morning)?/gc) { $comment-- if $1 }
+    elsif (/\G(Ko|kO|Kudah|kudah|Kukarek)/gc) {
       if ($level > 0) {
 	push $stack{$level}, $1;
       } else {
 	run $1;
       }
-    } elsif (/\GKud/gc) {
-      $stack{++$level} = [];
-    } elsif (/\Gkud/gc) {
+    }
+    elsif (/\GKud/gc) { $stack{++$level} = [] }
+    elsif (/\Gkud/gc) {
       cycle();
       $level--;
-    } elsif (/\G(.)/gc) {
-      say "\nChicktax errorek: $1";
-    } else {
-      last;
     }
+    elsif (/\G(.)/gc) { say "\nChicktax errorek: $1" }
+    else { last }
   }
 }
 
