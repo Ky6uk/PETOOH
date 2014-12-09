@@ -8,7 +8,13 @@ PETOOH interpreter written in [Ruby](http://ruby-lang.org).
 
 ### USAGE
 
+To run:
+
     ~$ ruby petooh.rb file
+
+To get some help:
+
+    ~$ ruby petooh.rb -h
 
 ### VERSION
 
