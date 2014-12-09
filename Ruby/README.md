@@ -18,4 +18,4 @@ To get some help:
 
 ### VERSION
 
-It is compiled from [petooh-gpl](https://github.com/LavirtheWhiolet/petooh-gpl), commit [81ec5e52461f98d68f3bef310b4cecc8e5b24f77 on Wed Dec 10 00:24:27 2014 +0500](https://github.com/LavirtheWhiolet/petooh-gpl/commit/81ec5e52461f98d68f3bef310b4cecc8e5b24f77).
+It is compiled from [petooh-gpl](https://github.com/LavirtheWhiolet/petooh-gpl), commit [384cd996a2c7246d2a9905b3e9f24c5eb941539d on Wed Dec 10 02:02:00 2014 +0500](https://github.com/LavirtheWhiolet/petooh-gpl/commit/384cd996a2c7246d2a9905b3e9f24c5eb941539d).
