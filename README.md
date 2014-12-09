@@ -1,7 +1,7 @@
-PETOOH - a fundamentally new programming language.
+PETOOH – a fundamentally new programming language
 ==================================================
 
-BASICS
+Basics
 ------
 
 <table>
