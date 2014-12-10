@@ -55,7 +55,7 @@ while ( read($fh, $char, 1) != 0 ) {
         $level--;
         $instruction = $char;
     }
-    elsif ($temp eq "Kukarek")                     {
+    elsif ($temp eq "Kukarek") {
         ($level > 0) ?
             push $stack->{$level}, $temp :
             print chr $result[$current_cell];
