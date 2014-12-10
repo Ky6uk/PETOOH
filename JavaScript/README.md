@@ -3,7 +3,7 @@
 PETOOH interpreter written on JavaScript
 
 ### FEATURES
-* AMD / Common.JS
+* AMD / CommonJS
 * Error-first
 * Length-independent input
 
