@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+textarea {
+    resize: none;
+    flex: 1 auto;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+@media all and (max-width: 500px) {
+    textarea {
+        flex: 1 100%;
+    }
+}
