@@ -1,4 +1,13 @@
+/* globals Petooh */
 'use strict';
+
+var sample = 'KoKoKoKoKoKoKoKoKoKo Kud-Kudah\n' +
+    'KoKoKoKoKoKoKoKo kudah kO kud-Kudah Kukarek kudah\n' +
+    'KoKoKo Kud-Kudah\n' +
+    'kOkOkOkO kudah kO kud-Kudah Ko Kukarek kudah\n' +
+    'KoKoKoKo Kud-Kudah KoKoKoKo kudah kO kud-Kudah kO Kukarek\n' +
+    'kOkOkOkOkO Kukarek Kukarek kOkOkOkOkOkOkO\n' +
+    'Kukarek';
 
 var debounce = function (callback, timeout) {
     var timeoutId;
@@ -17,15 +26,18 @@ var debounce = function (callback, timeout) {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    var petooh = new Petooh;
-
-    var input = document.getElementById('input');
+    var petooh = new Petooh({ cleanBrain: true });
+    var input  = document.getElementById('input');
     var output = document.getElementById('output');
 
     input.addEventListener('input', debounce(function (event) {
-        petooh.listen(null, event.target.value, { cleanBrain: true });
+        petooh.listen(null, event.target.value);
 
         output.value = petooh.told();
     }, 1000));
+
+    input.value = sample;
+
+    input.dispatchEvent(new Event('input'));
 });
 
