@@ -19,14 +19,19 @@
     // constructor desu
     var Petooh = function (options) {
         this.options = options || {};
+        this.filter = new RegExp(/^[adehkKoOru]$/);
+
+        this.cleanBrain();
+    };
+
+    Petooh.prototype.cleanBrain = function () {
+        this.brain = [];
+        this.result = '';
+        this.buffer = '';
         this.stack = {};
         this.level = 0;
         this.currentPosition = 0;
         this.word = '';
-        this.filter = new RegExp(/^[adehkKoOru]$/);
-        this.brain = [];
-        this.result = '';
-        this.buffer = '';
     };
 
     // ears of your rooster
@@ -146,14 +151,16 @@
 
     Petooh.prototype.success = function () {
         this.result += String.fromCharCode(this.brain[this.currentPosition]);
-
-        if (this.options.cleanBrain) {
-            this.brain = [];
-        }
     };
 
     Petooh.prototype.told = function () {
-        return this.result;
+        var result = this.result;
+
+        if (this.options.cleanBrain) {
+            this.cleanBrain();
+        }
+
+        return result;
     };
 
     return Petooh;
