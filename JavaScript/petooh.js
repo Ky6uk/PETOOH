@@ -11,13 +11,14 @@
         module.exports = factory();
     }
     else {
-        root.returnExports = factory();
+        root.Petooh = factory();
   }
 }(this, function () {
     'use strict';
 
     // constructor desu
-    var Petooh = function () {
+    var Petooh = function (options) {
+        this.options = options || {};
         this.stack = {};
         this.level = 0;
         this.currentPosition = 0;
@@ -145,6 +146,10 @@
 
     Petooh.prototype.success = function () {
         this.result += String.fromCharCode(this.brain[this.currentPosition]);
+
+        if (this.options.cleanBrain) {
+            this.brain = [];
+        }
     };
 
     Petooh.prototype.told = function () {
