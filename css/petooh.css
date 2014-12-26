@@ -1,15 +1,13 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 html, body {
     height: 100%;
 }
 
 textarea {
     resize: none;
-    flex: 1 auto;
+    flex: 1 100%;
+    margin: 5px;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .container {
@@ -18,8 +16,8 @@ textarea {
     flex-flow: row wrap;
 }
 
-@media all and (max-width: 500px) {
+@media all and (min-width: 60rem) {
     textarea {
-        flex: 1 100%;
+        flex: 1 auto;
     }
 }
