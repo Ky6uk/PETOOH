@@ -46,4 +46,4 @@ Code sample
     kOkOkOkOkO Kukarek Kukarek kOkOkOkOkOkOkO
     Kukarek
 
-[Perl demo](http://ideone.com/1Jenb)
+[Try now!](http://ky6uk.github.io/PETOOH/)
