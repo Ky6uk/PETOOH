@@ -2,23 +2,54 @@ html, body {
     height: 100%;
 }
 
-textarea {
-    resize: none;
-    flex: 1 100%;
-    margin: 5px;
-    border-radius: 5px;
-    padding: 5px;
-    border: 1px solid #aaa;
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
 }
 
 .container {
+    background: #efe;
+    width: 100%;
     height: 100%;
-    display: flex;
-    flex-flow: row wrap;
 }
 
-@media all and (min-width: 60rem) {
-    textarea {
-        flex: 1 auto;
+.clearfix:after,
+.clearfix:before {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    border: 2px dashed #dde;
+    background: #fafaff;
+}
+
+textarea:focus {
+    background: white;
+}
+
+.row {
+    height: 100%;
+}
+
+.column {
+    height: 50%;
+    padding: 0.5rem;
+}
+
+@media (min-width: 60rem) {
+    .column {
+        float: left;
+        padding: 0.5rem;
+        height: 100%;
+        width: 50%;
     }
 }
