@@ -41,7 +41,7 @@ while (<>) {
             cycle();
             $level--;
         }
-        elsif (/\G(.)/gc) { say "\nChicktax errorek: $1" }
+        elsif (/\G./gc) { }
         else { last }
     }
 }
