@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use v5.10;
-use experimental qw(switch autoderef);
+#use experimental qw(autoderef);
 
 my @result = ();
 my $current_cell = 0;
@@ -11,14 +11,11 @@ my $level = 0;
 my $comment = 0;
 
 sub run {
-    for ($_[0]) {
-        when (/^Ko$/) { $result[$current_cell]++ }
-        when (/^kO$/) { $result[$current_cell]-- }
-        when (/^Kudah$/) { $current_cell++ }
-        when (/^kudah$/) { $current_cell-- }
-        when (/^Kukarek$/) { print chr $result[$current_cell] }
-        default { say "\nUnexpected pkokoblem" }
-    }
+  if    ($_[0] =~ /^Ko$/) { $result[$current_cell]++ }
+  elsif ($_[0] =~ /^kO$/) { $result[$current_cell]-- }
+  elsif ($_[0] =~ /^Kudah$/) { $current_cell++ }
+  elsif ($_[0] =~ /^kudah$/) { $current_cell-- }
+  elsif ($_[0] =~ /^Kukarek$/) { print chr $result[$current_cell] }
 }
 
 sub cycle {
