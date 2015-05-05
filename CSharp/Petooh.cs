@@ -131,18 +131,19 @@ namespace Petooh
     {
         static void Main(string[] args)
         {
-            var pet = new Petooh();
+            if (args.Length > 0)
+            {
+                var pet = new Petooh();
 
-            pet.Listen(
-@"KoKoKoKoKoKoKoKoKoKo Kud-Kudah
-KoKoKoKoKoKoKoKo kudah kO kud-Kudah
-Kukarek kudah KoKoKo Kud-Kudah kOkOkOkO
-kudah kO kud-Kudah Ko Kukarek kudah
-KoKoKoKo Kud-Kudah KoKoKoKo kudah kO
-kud-Kudah kO Kukarek kOkOkOkOkO Kukarek
-Kukarek kOkOkOkOkOkOkO Kukarek");
-            Console.WriteLine(pet.Told);
-
+                pet.Listen(System.IO.File.ReadAllText(args[0]));
+                Console.WriteLine(pet.Told);
+            }
+            else
+            {
+                Console.WriteLine("USAGE: Petooh.exe /path/to/file.koko");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Press ANY key");
             Console.ReadKey();
         }
     }
