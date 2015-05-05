@@ -5,10 +5,10 @@ C# implementation of PETOOH compiller written in [C#](https://ru.wikipedia.org/w
 ### Compilation
 
 ```
-    csc /out:Petooh.exe Petooh.cs
+    ~$ csc.exe /out:Petooh.exe Petooh.cs
 ```
 ### USAGE
 
 ```
-    Petooh file
+    ~$ Petooh.exe [PETOOH code file]
 ```
