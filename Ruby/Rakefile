@@ -58,7 +58,7 @@ end
 #
 # It performs following replacements in +file+:
 # * "$Generated$" is replaced with
-#   <tt>"Generated from "{source_file}" on {current date}".
+#   <tt>"Generated from "{source_file}" on {current date}"</tt>.
 # 
 def expand_standard_macros(file, source_file)
   log "expand_standard_macros #{file}"
