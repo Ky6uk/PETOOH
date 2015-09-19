@@ -3,7 +3,7 @@
 # require 'petooh'
 # encoding: UTF-8
 
-# $Generated$
+# Generated from "lib/petooh.peg" on 2015-09-19 23:14:06 +0500"
 
 module PETOOH
 
