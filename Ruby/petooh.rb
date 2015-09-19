@@ -3,6 +3,8 @@
 # require 'petooh'
 # encoding: UTF-8
 
+# $Generated$
+
 module PETOOH
 
   # 

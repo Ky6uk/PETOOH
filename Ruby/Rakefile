@@ -108,18 +108,3 @@ def peg2rb src_file, dest_file
   #
   expand_standard_macros(dest_file, src_file)
 end
-
-#
-# It performs following replacements in +file+:
-# * "$Source-File$" is replaced with +source_file+
-# * "$Date$" is replaced with current date and time.
-# 
-def expand_standard_macros(file, source_file)
-  log "expand_standard_macros #{file}"
-  File.write(
-    file,
-    File.read(file).
-      gsub("$Source-File$", source_file).
-      gsub("$Date$", Time.now.to_s)
-  )
-end
