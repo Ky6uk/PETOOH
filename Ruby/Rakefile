@@ -15,7 +15,7 @@ file "gen/lib/petooh.rb" => "lib/petooh.peg" do |task|
 end
 
 file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
-  write_file(
+  gen_file(
     task.name,
     File.read(task.sources[1]).
       gsub(/require\s+['"]petooh['"]/) do |match|
@@ -86,8 +86,8 @@ end
 # 
 # The same as File#write() but logs its action.
 # 
-def write_file(file, content)
-  log "write #{file}"
+def gen_file(file, content)
+  log "gen #{file}"
   File.write(file, content)
 end
 
