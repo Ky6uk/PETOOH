@@ -30,7 +30,7 @@ file "gen/PETOOH.md" => "../README.md" do |task|
 end
 
 file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
-  sh "erb -T 1 #{task.source} > #{task.name}"
+  sh "erb -T 2 #{task.source} > #{task.name}"
 end
 
 GEM_FILES = <<LIST.lines.map(&:strip)
