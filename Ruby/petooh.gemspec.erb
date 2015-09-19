@@ -1,0 +1,24 @@
+<%
+class Object
+  def to_rb
+    self.inspect
+  end
+end
+%>
+
+Gem::Specification.new do |s|
+  s.name = <%= __FILE__.chomp(File.extname(__FILE__)).to_rb %>
+  s.version = "0.0.1"
+  s.license = <%= File.open("../LICENSE") { |io| io.gets.chomp }.to_rb %>
+  s.summary = "PETOOH interpreter"
+  s.description = <<-TEXT
+Interpreter of PETOOH - the fundamentally new programming language.
+  TEXT
+  s.authors = ["Roman Nuritdinov", "Lavir the Whiolet"]  # TODO: Get names from Git repository's history.
+  s.email = ["ky6uk.kun@gmail.com", "Lavir.th.Whiolet@gmail.com"]  # TODO: Get e-mails from Git repository's history.
+  s.files = ["gen/lib/petooh.rb"]
+  s.bindir = "bin"
+  s.executables = ["petooh"]
+  s.extra_rdoc_files = ["README.md", "gen/PETOOH.md", "../LICENSE"]
+  s.homepage = "http://ky6uk.github.io/PETOOH/"
+end
