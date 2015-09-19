@@ -33,7 +33,7 @@ file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
   sh "erb -T 1 #{task.source} > #{task.name}"
 end
 
-GEM_FILES = <<LIST.to_lines.map(&:strip)
+GEM_FILES = <<LIST.lines.map(&:strip)
   gen/lib/petooh.rb
   bin/petooh
   gen/petooh.gemspec
