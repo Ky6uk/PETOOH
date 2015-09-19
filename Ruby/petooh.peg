@@ -1,5 +1,4 @@
 {...
-#!/usr/bin/env ruby
 # encoding: UTF-8
 
 module PETOOH
@@ -135,25 +134,6 @@ comment = char ;
   
   # End of generated code.
 
-end
-
-# Main.
-if $0 == __FILE__
-  # Parse args.
-  case ARGV
-  when [], ["-h"], ["--help"]
-    puts <<-HELP
-Usage: ruby #{File.basename(__FILE__)} file.koko
-    HELP
-    exit
-  end
-  file = ARGV[0]
-  # Run!
-  include PETOOH
-  File.open(file) do |io|
-    program = parse(io)
-    run program
-  end
 end
 
 }...
