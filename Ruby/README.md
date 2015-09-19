@@ -9,8 +9,9 @@ PETOOH interpreter written in [Ruby](http://ruby-lang.org) and [GPL](https://git
 ### BUILD
 
 First, you need to install:
-* [Rake](http://docs.seattlerb.org/rake/). Usually it comes with Ruby, but if it isn't then you may install it with the command `gem install rake`.
-* [GPL](https://github.com/LavirtheWhiolet/self-bootstrap). Just download ["peg2rb.rb"](https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb) into this directory and you are ready.
+
+- [Rake](http://docs.seattlerb.org/rake/). Usually it comes with Ruby, but if it isn't then you may install it with the command `gem install rake`.
+- [GPL](https://github.com/LavirtheWhiolet/self-bootstrap). Just download ["peg2rb.rb"](https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb) into this directory and you are ready.
 
 To (re-)build PETOOH interpreter as a standalone Ruby script you give the command:
 
@@ -47,4 +48,5 @@ Or, if you have installed the interpreter as a Ruby gem:
     ~$ petooh [options] file
 
 Options:
-* `-h` - Get some help.
+
+- `-h` - Get some help.
