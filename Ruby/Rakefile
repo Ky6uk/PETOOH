@@ -46,6 +46,10 @@ task gem: GEM_FILES do
   sh "gem build gen/petooh.gemspec"
 end
 
+task all: ["petooh.rb", :gem]
+
+task default: :all
+
 # ---------------
 # :section: Utils
 # ---------------
