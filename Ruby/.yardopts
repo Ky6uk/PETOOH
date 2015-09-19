@@ -1,0 +1,4 @@
+lib/**/*.rb
+gen/lib/**/*.rb
+README.md
+gen/LICENSE

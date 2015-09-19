@@ -1,4 +1,5 @@
 <%
+require 'rake'
 
 class Object
   
@@ -8,11 +9,21 @@ class Object
   
 end
 
+class String
+  
+  def lchomp(prefix)
+    if self.start_with? prefix then self[prefix.length..-1]
+    else self
+    end
+  end
+  
+end
+
 %>
 
 Gem::Specification.new do |s|
   s.name = "petooh"
-  s.version = "6.0.0"
+  s.version = "6.0.3"
   s.license = <%= File.open("../LICENSE") { |io| io.gets.chomp }.to_rb %>
   s.summary = "PETOOH interpreter"
   s.description = <<-TEXT
@@ -20,10 +31,19 @@ Interpreter of PETOOH - the fundamentally new programming language.
   TEXT
   s.authors = ["Roman Nuritdinov", "Lavir the Whiolet"]  # TODO: Get names from Git repository's history.
   s.email = ["ky6uk.kun@gmail.com", "Lavir.th.Whiolet@gmail.com"]  # TODO: Get e-mails from Git repository's history.
-  s.files = ["gen/lib/petooh.rb"]
-  s.bindir = "bin"
+  s.files = <%=
+    FileList[
+      "lib/**/*.rb", "gen/lib/**/*.rb",
+      "README.md",
+      "gen/README",
+      "gen/LICENSE",
+      ".yardopts"
+    ].to_a.to_rb
+  %>
   s.require_paths = ["lib", "gen/lib"]
-  s.executables = ["petooh"]
-  s.extra_rdoc_files = ["README.md", "gen/PETOOH language.md", "gen/LICENSE"]
+  s.bindir = "bin"
+  s.executables = <%= FileList["bin/*"].map { |f| f.lchomp("bin/") }.to_rb %>
+  s.extra_rdoc_files = ["gen/README", "gen/LICENSE"]
+  s.rdoc_options << '--main' << 'gen/README'
   s.homepage = "http://ky6uk.github.io/PETOOH/"
 end
