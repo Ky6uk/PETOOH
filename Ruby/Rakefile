@@ -1,6 +1,18 @@
 require 'open-uri'
 
+# --------------------
+# :section: Properties
+# --------------------
+
 PEG2RB = "peg2rb"
+
+# ---------------
+# :section: Tasks
+# ---------------
+
+# ---------------
+# :section: Utils
+# ---------------
 
 # 
 # Creates directory for +file+ if it does not exist.
