@@ -1,21 +1,50 @@
 ### DESCRIPTION
 
-PETOOH interpreter written in [Ruby](http://ruby-lang.org).
+PETOOH interpreter written in [Ruby](http://ruby-lang.org) and [GPL](https://github.com/LavirtheWhiolet/self-bootstrap).
 
 ### DEPENDS
 
 [Ruby](http://ruby-lang.org) 1.9.3 or higer.
 
+### BUILD
+
+First, you need to install:
+* [Rake](http://docs.seattlerb.org/rake/). Usually it comes with Ruby, but if it isn't then you may install it with the command `gem install rake`.
+* [GPL](https://github.com/LavirtheWhiolet/self-bootstrap). Just download ["peg2rb.rb"](https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb) into this directory and you are ready.
+
+To (re-)build PETOOH interpreter as a standalone Ruby script you give the command:
+
+    rake petooh.rb
+
+To build a Ruby gem you give the command:
+    
+    rake gem
+    
+To build everything in this package you just give the command:
+    
+    rake
+
+To clean up your directory give the command:
+
+    rake clean
+
+### INSTALL
+
+Copy "petooh.rb" to some directory.
+
+Or install the corresponding Ruby gem by giving the command:
+
+    gem install petooh
+
 ### USAGE
 
 To run:
 
-    ~$ ruby petooh.rb file
+    ~$ ruby petooh.rb [options] file
 
-To get some help:
+Or, if you have installed the interpreter as a Ruby gem:
 
-    ~$ ruby petooh.rb -h
+    ~$ petooh [options] file
 
-### VERSION
-
-It is compiled from [petooh-gpl](https://github.com/LavirtheWhiolet/petooh-gpl), commit [384cd996a2c7246d2a9905b3e9f24c5eb941539d on Wed Dec 10 02:02:00 2014 +0500](https://github.com/LavirtheWhiolet/petooh-gpl/commit/384cd996a2c7246d2a9905b3e9f24c5eb941539d).
+Options:
+* `-h` - Get some help.
