@@ -33,13 +33,17 @@ file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
   sh "erb -T 2 #{task.source} > #{task.name}"
 end
 
+file "gen/LICENSE" => "../LICENSE" do |task|
+  cp task.source, task.name
+end
+
 GEM_FILES = <<LIST.lines.map(&:strip)
   gen/lib/petooh.rb
   bin/petooh
   gen/petooh.gemspec
   README.md
   gen/PETOOH.md
-  ../LICENSE
+  gen/LICENSE
 LIST
 
 task gem: GEM_FILES do
@@ -49,6 +53,11 @@ end
 task all: ["petooh.rb", :gem]
 
 task default: :all
+
+task :clean do
+  rm_r "gen/*"
+  rm "petooh.rb"
+end
 
 # ---------------
 # :section: Utils
