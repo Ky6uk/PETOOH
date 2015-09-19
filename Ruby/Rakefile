@@ -58,16 +58,15 @@ end
 
 #
 # It performs following replacements in +file+:
-# * "$Source-File$" is replaced with +source_file+
-# * "$Date$" is replaced with current date and time.
+# * "$Generated$" is replaced with
+#   <tt>"Generated from "{source_file}" on {current date}".
 # 
 def expand_standard_macros(file, source_file)
   log "expand_standard_macros #{file}"
   File.write(
     file,
     File.read(file).
-      gsub("$Source-File$", source_file).
-      gsub("$Date$", Time.now.to_s)
+      gsub("$Generated$", %(Generated from "#{source_file}" on #{Time.now}"))
   )
 end
 
