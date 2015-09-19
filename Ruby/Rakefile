@@ -1,11 +1,5 @@
 require 'open-uri'
 
-# --------------------
-# :section: Properties
-# --------------------
-
-PEG2RB = "peg2rb.rb"
-
 # ---------------
 # :section: Tasks
 # ---------------
@@ -102,17 +96,18 @@ def prepare_dir_for(file)
 end
 
 def peg2rb src_file, dest_file
-  # Ensure PEG2RB is present.
-  if not File.file? PEG2RB then
+  peg2rb = "peg2rb.rb"
+  # Ensure gpl is present.
+  if not File.file? peg2rb then
     begin
-      STDERR.puts %(It looks like "#{PEG2RB}" is not present. I will try to download it for you.)
+      STDERR.puts %(It looks like "#{peg2rb}" is not present. I will try to download it for you.)
       open("https://raw.githubusercontent.com/LavirtheWhiolet/self-bootstrap/master/peg2rb.rb") do |io|
-        File.write(PEG2RB, io.read)
+        File.write(peg2rb, io.read)
       end
     rescue
-      raise %("#{PEG2RB}" is not present; download it from "https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb")
+      raise %("#{peg2rb}" is not present; download it from "https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb")
     end
   end
   # 
-  sh "ruby #{PEG2RB} #{src_file} > #{dest_file}"
+  sh "ruby #{peg2rb} #{src_file} > #{dest_file}"
 end
