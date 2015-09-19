@@ -57,6 +57,7 @@ task default: :all
 task :clean do
   rm_rf "gen/*"
   rm_f "petooh.rb"
+  FileList["*.gem"].each { |f| rm f }
 end
 
 # ---------------
