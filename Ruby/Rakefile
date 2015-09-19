@@ -14,9 +14,32 @@ file "gen/lib/petooh.rb" => "lib/petooh.peg" do |task|
   peg2rb task.source, prepare_dir_for(task.name)
 end
 
+file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
+  write_file(
+    task.name,
+    File.read(task.sources[1]).
+      gsub(/require\s+['"]petooh['"]/) do |match|
+        "# #{match}\n"\
+        "#{File.read(task.sources[0])}"
+      end
+  )
+end
+
 # ---------------
 # :section: Utils
 # ---------------
+
+def log(msg)
+  STDERR.puts msg
+end
+
+# 
+# The same as File#write() but logs its action.
+# 
+def write_file(file, content)
+  log "write #{file}"
+  File.write(file, content)
+end
 
 # 
 # Creates directory for +file+ if it does not exist.
