@@ -1,0 +1,19 @@
+require 'open-uri'
+
+PEG2RB = "peg2rb"
+
+def peg2rb src_file, dest_file
+  # Ensure PEG2RB is present.
+  if not File.file? PEG2RB then
+    begin
+      STDERR.puts %(It looks like "#{PEG2RB}" is not present. I will try to download it for you.)
+      open("https://raw.githubusercontent.com/LavirtheWhiolet/self-bootstrap/master/peg2rb.rb") do |io|
+        File.write(PEG2RB, io.read)
+      end
+    rescue
+      raise %("#{PEG2RB}" is not present; download it from "https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb")
+    end
+  end
+  # 
+  sh "ruby #{PEG2RB} #{src_file} > #{dest_file}"
+end
