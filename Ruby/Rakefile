@@ -16,7 +16,7 @@ end
 
 file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
   gen_file(
-    task.name,
+    prepare_dir_for(task.name),
     File.read(task.sources[1]).
       gsub(/require\s+['"]petooh['"]/) do |match|
         "# #{match}\n"\
@@ -26,15 +26,15 @@ file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
 end
 
 file "gen/PETOOH.md" => "../README.md" do |task|
-  cp task.source, task.name
+  cp task.source, prepare_dir_for(task.name)
 end
 
 file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
-  sh "erb -T 2 #{task.source} > #{task.name}"
+  sh "erb -T 2 #{task.source} > #{prepare_dir_for(task.name)}"
 end
 
 file "gen/LICENSE" => "../LICENSE" do |task|
-  cp task.source, task.name
+  cp task.source, prepare_dir_for(task.name)
 end
 
 GEM_FILES = <<LIST.lines.map(&:strip)
