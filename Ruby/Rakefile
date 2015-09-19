@@ -29,6 +29,10 @@ file "gen/PETOOH.md" => "../README.md" do |task|
   cp task.source, task.name
 end
 
+file "gen/petooh.gemspec" => "petooh.gemspec.erb" do |task|
+  sh "erb -T 1 #{task.source} > #{task.name}"
+end
+
 # ---------------
 # :section: Utils
 # ---------------
