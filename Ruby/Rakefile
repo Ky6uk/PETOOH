@@ -25,6 +25,10 @@ file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
   )
 end
 
+file "gen/PETOOH.md" => "../README.md" do |task|
+  cp task.source, task.name
+end
+
 # ---------------
 # :section: Utils
 # ---------------
