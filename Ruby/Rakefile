@@ -17,7 +17,7 @@ file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
   end
 end
 
-file "gen/PETOOH.md" => "../README.md" do |task|
+file "gen/PETOOH language.md" => "../README.md" do |task|
   cp task.source, prepare_dir_for(task.name)
 end
 
@@ -34,7 +34,7 @@ GEM_FILES = <<LIST.lines.map(&:strip)
   bin/petooh
   gen/petooh.gemspec
   README.md
-  gen/PETOOH.md
+  gen/PETOOH language.md
   gen/LICENSE
 LIST
 
