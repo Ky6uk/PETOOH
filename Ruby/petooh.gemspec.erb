@@ -1,9 +1,20 @@
 <%
+require 'rake'
 
 class Object
   
   def to_rb
     self.inspect
+  end
+  
+end
+
+class String
+  
+  def lchomp(prefix)
+    if self.start_with? prefix then self[prefix.length..-1]
+    else self
+    end
   end
   
 end
@@ -20,13 +31,18 @@ Interpreter of PETOOH - the fundamentally new programming language.
   TEXT
   s.authors = ["Roman Nuritdinov", "Lavir the Whiolet"]  # TODO: Get names from Git repository's history.
   s.email = ["ky6uk.kun@gmail.com", "Lavir.th.Whiolet@gmail.com"]  # TODO: Get e-mails from Git repository's history.
-  s.files =
-    Dir["lib/**/*.rb"] +
-    Dir["gen/lib/**/*.rb"] +
-    ["README.md", "gen/README", "gen/LICENSE", ".yardopts"]
+  s.files = <%=
+    FileList[
+      "lib/**/*.rb", "gen/lib/**/*.rb",
+      "README.md",
+      "gen/README",
+      "gen/LICENSE",
+      ".yardopts"
+    ].to_a.to_rb
+  %>
   s.require_paths = ["lib", "gen/lib"]
   s.bindir = "bin"
-  s.executables = ["petooh"]
+  s.executables = <%= FileList["bin/*"].map { |f| "#{f.lchomp(s.bindir)}/" }.to_rb %>
   s.extra_rdoc_files = ["gen/README", "gen/LICENSE"]
   s.rdoc_options << '--main' << 'gen/README'
   s.homepage = "http://ky6uk.github.io/PETOOH/"
