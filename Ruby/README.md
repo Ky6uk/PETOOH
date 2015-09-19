@@ -30,7 +30,11 @@ To clean up your directory give the command:
 
 ### INSTALL
 
+Copy "petooh.rb" to some directory.
 
+Or install the corresponding Ruby gem by giving the command:
+
+    gem install petooh
 
 ### USAGE
 
