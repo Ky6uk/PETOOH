@@ -22,7 +22,7 @@ file "gen/PETOOH language.md" => "../README.md" do |task|
 end
 
 file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
-  sh "erb -T 2 #{task.source} > #{prepare_dir_for(task.name)}"
+  erb task.source, prepare_dir_for(task.name)
 end
 
 file "gen/LICENSE" => "../LICENSE" do |task|
@@ -73,7 +73,12 @@ def log(msg)
   STDERR.puts msg
 end
 
-def gen_file(source_file, dest_file, &content_f)
+def erb src_file, dest_file
+  sh "erb -T 2 #{src_file} > #{dest_file}"
+  expand_standard_macros(dest_file, src_file)
+end
+
+def gen_file source_file, dest_file, &content_f
   log "gen #{dest_file}"
   File.write(dest_file, content_f.(File.read(source_file)))
   expand_standard_macros(dest_file, source_file)
