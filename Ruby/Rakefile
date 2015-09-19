@@ -10,6 +10,10 @@ PEG2RB = "peg2rb"
 # :section: Tasks
 # ---------------
 
+file "gen/lib/petooh.rb" => "lib/petooh.peg" do |task|
+  peg2rb task.source, prepare_dir_for(task.name)
+end
+
 # ---------------
 # :section: Utils
 # ---------------
