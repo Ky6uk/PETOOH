@@ -55,8 +55,8 @@ task all: ["petooh.rb", :gem]
 task default: :all
 
 task :clean do
-  rm_r "gen/*"
-  rm "petooh.rb"
+  rm_rf "gen/*"
+  rm_f "petooh.rb"
 end
 
 # ---------------
