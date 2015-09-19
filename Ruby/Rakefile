@@ -4,7 +4,7 @@ require 'open-uri'
 # :section: Properties
 # --------------------
 
-PEG2RB = "peg2rb"
+PEG2RB = "peg2rb.rb"
 
 # ---------------
 # :section: Tasks
