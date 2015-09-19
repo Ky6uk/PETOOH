@@ -78,6 +78,7 @@ end
 def gen_file(source_file, dest_file, &content_f)
   log "gen #{dest_file}"
   File.write(dest_file, content_f.(File.read(source_file)))
+  expand_standard_macros(dest_file, source_file)
 end
 
 # 
@@ -105,6 +106,8 @@ def peg2rb src_file, dest_file
   end
   # 
   sh "ruby #{peg2rb} #{src_file} > #{dest_file}"
+  #
+  expand_standard_macros(dest_file, src_file)
 end
 
 #
