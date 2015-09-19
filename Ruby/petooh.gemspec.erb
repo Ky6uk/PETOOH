@@ -42,7 +42,7 @@ Interpreter of PETOOH - the fundamentally new programming language.
   %>
   s.require_paths = ["lib", "gen/lib"]
   s.bindir = "bin"
-  s.executables = <%= FileList["bin/*"].map { |f| "#{f.lchomp(s.bindir)}/" }.to_rb %>
+  s.executables = <%= FileList["bin/*"].map { |f| f.lchomp("bin/") }.to_rb %>
   s.extra_rdoc_files = ["gen/README", "gen/LICENSE"]
   s.rdoc_options << '--main' << 'gen/README'
   s.homepage = "http://ky6uk.github.io/PETOOH/"
