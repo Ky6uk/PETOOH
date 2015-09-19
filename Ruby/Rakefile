@@ -17,10 +17,6 @@ file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
   end
 end
 
-file "gen/PETOOH language.md" => "../README.md" do |task|
-  cp task.source, prepare_dir_for(task.name)
-end
-
 file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
   erb task.source, prepare_dir_for(task.name)
 end
@@ -29,13 +25,18 @@ file "gen/LICENSE" => "../LICENSE" do |task|
   cp task.source, prepare_dir_for(task.name)
 end
 
+file "gen/README" => "README.md" do |task|
+  cp task.source, prepare_dir_for(task.name)
+end
+
 GEM_FILES = <<LIST.lines.map(&:strip)
   gen/lib/petooh.rb
   bin/petooh
   gen/petooh.gemspec
   README.md
-  gen/PETOOH language.md
+  gen/README
   gen/LICENSE
+  .yardopts
 LIST
 
 task gem: GEM_FILES do

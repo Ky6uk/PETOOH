@@ -1,6 +1,6 @@
 ### DESCRIPTION
 
-PETOOH interpreter written in [Ruby](http://ruby-lang.org) and [GPL](https://github.com/LavirtheWhiolet/self-bootstrap).
+[PETOOH](https://github.com/Ky6uk/PETOOH) interpreter written in [Ruby](http://ruby-lang.org) and [GPL](https://github.com/LavirtheWhiolet/self-bootstrap).
 
 ### DEPENDS
 
