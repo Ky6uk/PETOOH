@@ -1,13 +1,17 @@
 <%
+
 class Object
+  
   def to_rb
     self.inspect
   end
+  
 end
+
 %>
 
 Gem::Specification.new do |s|
-  s.name = <%= __FILE__.chomp(File.extname(__FILE__)).to_rb %>
+  s.name = "petooh"
   s.version = "0.0.1"
   s.license = <%= File.open("../LICENSE") { |io| io.gets.chomp }.to_rb %>
   s.summary = "PETOOH interpreter"
