@@ -9,14 +9,12 @@ file "gen/lib/petooh.rb" => "lib/petooh.peg" do |task|
 end
 
 file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
-  gen_file(
-    prepare_dir_for(task.name),
-    File.read(task.sources[1]).
-      gsub(/require\s+['"]petooh['"]/) do |match|
-        "# #{match}\n"\
-        "#{File.read(task.sources[0])}"
-      end
-  )
+  gen_file(task.sources[1], prepare_dir_for(task.name)) do |content|
+    content.gsub(/require\s+['"]petooh['"]/) do |match|
+      "# #{match}\n"\
+      "#{File.read(task.sources[0])}"
+    end
+  end
 end
 
 file "gen/PETOOH.md" => "../README.md" do |task|
@@ -60,16 +58,15 @@ end
 
 #
 # It performs following replacements in +file+:
-# * "$Source-File$" is replaced with +source_file+
-# * "$Date$" is replaced with current date and time.
+# * "$Generated$" is replaced with
+#   <tt>"Generated from "{source_file}" on {current date}".
 # 
 def expand_standard_macros(file, source_file)
   log "expand_standard_macros #{file}"
   File.write(
     file,
     File.read(file).
-      gsub("$Source-File$", source_file).
-      gsub("$Date$", Time.now.to_s)
+      gsub("$Generated$", %(Generated from "#{source_file}" on #{Time.now}))
   )
 end
 
@@ -77,12 +74,10 @@ def log(msg)
   STDERR.puts msg
 end
 
-# 
-# The same as File#write() but logs its action.
-# 
-def gen_file(file, content)
-  log "gen #{file}"
-  File.write(file, content)
+def gen_file(source_file, dest_file, &content_f)
+  log "gen #{dest_file}"
+  File.write(dest_file, content_f.(File.read(source_file)))
+  expand_standard_macros(dest_file, source_file)
 end
 
 # 
@@ -110,4 +105,6 @@ def peg2rb src_file, dest_file
   end
   # 
   sh "ruby #{peg2rb} #{src_file} > #{dest_file}"
+  #
+  expand_standard_macros(dest_file, src_file)
 end
