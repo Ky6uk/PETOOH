@@ -2,6 +2,16 @@ require 'open-uri'
 
 PEG2RB = "peg2rb"
 
+# 
+# Creates directory for +file+ if it does not exist.
+# 
+# It returns +file+.
+# 
+def prepare_dir_for(file)
+  mkdir_p File.dirname(file)
+  return file
+end
+
 def peg2rb src_file, dest_file
   # Ensure PEG2RB is present.
   if not File.file? PEG2RB then
