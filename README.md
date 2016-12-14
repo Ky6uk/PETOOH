@@ -39,7 +39,7 @@ Code sample
 -----------
 
     KoKoKoKoKoKoKoKoKoKo Kud-Kudah
-    KoKoKoKoKoKoKoKo kudah kO kud-Kudah Kukarek kudah
+    KoKoKoKoKoKoKoKo-Kosovo kudah kO kud-Kudah Kukarek kudah
     KoKoKo Kud-Kudah
     kOkOkOkO kudah kO kud-Kudah Ko Kukarek kudah
     KoKoKoKo Kud-Kudah KoKoKoKo kudah kO kud-Kudah kO Kukarek
