@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -109,6 +110,57 @@ InstrTokenList const readInstructions(std::istream &in)
 }
 
 
+std::string const createLoopsErrorMessage(InstrTokenList const &unclosedLoops,
+                                          InstrTokenList const &unopenedLoops)
+{
+    std::ostringstream errStream;
+    for (auto const &token: unopenedLoops) {
+        errStream << "Unopened loop at line "
+                  << formatCharPosition(token.lineIdx, token.firstCharIdx)
+                  << '\n';
+    }
+    for (size_t i = 0; i < unclosedLoops.size(); ++i) {
+        if (i > 0) {
+            errStream << '\n';
+        }
+        InstrToken const &token = unclosedLoops[i];
+        errStream << "Unclosed loop at line "
+                  << formatCharPosition(token.lineIdx, token.firstCharIdx);
+    }
+    return errStream.str();
+}
+
+
+void checkLoops(InstrTokenList const &instrTokens)
+{
+    InstrTokenList unclosedLoops;
+    InstrTokenList unopenedLoops;
+    for (auto const &token: instrTokens) {
+        switch (token.instr) {
+        case Instr::LOOP_START:
+            unclosedLoops.push_back(token);
+            break;
+        case Instr::LOOP_END:
+            if (unclosedLoops.empty()) {
+                unopenedLoops.push_back(token);
+            } else {
+                unclosedLoops.pop_back();
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (unclosedLoops.empty() && unopenedLoops.empty()) {
+        return;
+    }
+
+    showErrorMessageAndExit(createLoopsErrorMessage(unclosedLoops,
+                                                    unopenedLoops));
+}
+
+
 int main(int argc, char *argv[])
 {
     InstrTokenList instrTokens(readInstructions(std::cin));
@@ -117,6 +169,7 @@ int main(int argc, char *argv[])
                   << token.lineIdx << " "
                   << token.firstCharIdx << "\n";
     }
+    checkLoops(instrTokens);
 
     return 0;
 }
