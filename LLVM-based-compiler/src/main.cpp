@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -6,6 +7,10 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
+
+#include <llvm/IR/IRBuilder.h>
+#include <llvm/IR/LLVMContext.h>
+#include <llvm/IR/Module.h>
 
 #define FOR_EACH_INSTRUCTION(MACRO)                                            \
   MACRO(INC_POS, "Kudah")                                                      \
@@ -138,13 +143,25 @@ void checkLoops(InstrTokenList const &instrTokens) {
       createLoopsErrorMessage(unclosedLoops, unopenedLoops));
 }
 
+std::unique_ptr<llvm::Module> createMainModule() {
+  llvm::LLVMContext &ctx = llvm::getGlobalContext();
+  auto module(std::make_unique<llvm::Module>("main", ctx));
+
+  llvm::IRBuilder<> builder(ctx);
+  auto *const funcType = llvm::FunctionType::get(builder.getInt32Ty(), false);
+  auto *const mainFunc = llvm::Function::Create(
+      funcType, llvm::Function::ExternalLinkage, "main", module.get());
+  auto *const entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
+  builder.SetInsertPoint(entry);
+  builder.CreateRet(
+      llvm::ConstantInt::get(llvm::IntegerType::get(ctx, 32), 0, true));
+
+  return module;
+}
+
 int main(int argc, char *argv[]) {
-  InstrTokenList instrTokens(readInstructions(std::cin));
-  for (auto const &token : instrTokens) {
-    std::cout << static_cast<int>(token.instr) << " " << token.lineIdx << " "
-              << token.firstCharIdx << "\n";
-  }
-  checkLoops(instrTokens);
+  auto const module(createMainModule());
+  module->dump();
 
   return 0;
 }
