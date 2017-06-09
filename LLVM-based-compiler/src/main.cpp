@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <cctype>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 
@@ -143,11 +144,19 @@ void checkLoops(InstrTokenList const &instrTokens) {
       createLoopsErrorMessage(unclosedLoops, unopenedLoops));
 }
 
-std::unique_ptr<llvm::Module> createMainModule() {
+std::unique_ptr<llvm::Module> createMainModule(uint64_t const byteCount) {
   llvm::LLVMContext &ctx = llvm::getGlobalContext();
   auto module(std::make_unique<llvm::Module>("main", ctx));
-
   llvm::IRBuilder<> builder(ctx);
+
+  // Allocate program memory
+  auto *const arrayType = llvm::ArrayType::get(builder.getInt8Ty(), byteCount);
+  auto *const initializer = llvm::ConstantAggregateZero::get(arrayType);
+  auto *const bytes = new llvm::GlobalVariable(
+      *module, arrayType, false, llvm::GlobalVariable::CommonLinkage,
+      initializer, "bytes");
+
+  // Create main function
   auto *const funcType = llvm::FunctionType::get(builder.getInt32Ty(), false);
   auto *const mainFunc = llvm::Function::Create(
       funcType, llvm::Function::ExternalLinkage, "main", module.get());
@@ -159,7 +168,7 @@ std::unique_ptr<llvm::Module> createMainModule() {
 }
 
 int main(int argc, char *argv[]) {
-  auto const module(createMainModule());
+  auto const module(createMainModule(30000));
   module->dump();
 
   return 0;
