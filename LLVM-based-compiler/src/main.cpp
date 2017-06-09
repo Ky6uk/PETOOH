@@ -153,8 +153,7 @@ std::unique_ptr<llvm::Module> createMainModule() {
       funcType, llvm::Function::ExternalLinkage, "main", module.get());
   auto *const entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
   builder.SetInsertPoint(entry);
-  builder.CreateRet(
-      llvm::ConstantInt::get(llvm::IntegerType::get(ctx, 32), 0, true));
+  builder.CreateRet(llvm::ConstantInt::get(builder.getInt32Ty(), 0));
 
   return module;
 }
