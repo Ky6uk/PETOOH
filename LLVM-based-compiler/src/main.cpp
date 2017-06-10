@@ -162,6 +162,10 @@ std::unique_ptr<llvm::Module> createMainModule(uint64_t const byteCount) {
       funcType, llvm::Function::ExternalLinkage, "main", module.get());
   auto *const entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
   builder.SetInsertPoint(entry);
+
+  auto *const pos = builder.CreateAlloca(builder.getInt64Ty(), nullptr, "pos");
+  builder.CreateStore(llvm::ConstantInt::get(builder.getInt64Ty(), 0), pos);
+
   builder.CreateRet(llvm::ConstantInt::get(builder.getInt32Ty(), 0));
 
   return module;
