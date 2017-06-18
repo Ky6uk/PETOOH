@@ -55,6 +55,7 @@ struct InstrToken {
   size_t firstCharIdx;
 };
 
+using InstrList = std::vector<Instr>;
 using InstrTokenList = std::vector<InstrToken>;
 
 void showErrorMessageAndExit(std::string const &errorMessage) {
@@ -144,35 +145,89 @@ void checkLoops(InstrTokenList const &instrTokens) {
       createLoopsErrorMessage(unclosedLoops, unopenedLoops));
 }
 
-std::unique_ptr<llvm::Module> createMainModule(uint64_t const byteCount) {
+std::unique_ptr<llvm::Module> createMainLlvmModule(uint64_t const byteCount,
+                                                   InstrList const &instrs) {
   llvm::LLVMContext &ctx = llvm::getGlobalContext();
   auto module(std::make_unique<llvm::Module>("main", ctx));
   llvm::IRBuilder<> builder(ctx);
 
+  // Useful constants
+  auto *const i8 = builder.getInt8Ty();
+  auto *const i32 = builder.getInt32Ty();
+  auto *const i64 = builder.getInt64Ty();
+
+  auto *const zeroI64 = llvm::ConstantInt::get(i64, 0);
+
+  auto *const oneI8 = llvm::ConstantInt::get(i8, 1);
+  auto *const oneI64 = llvm::ConstantInt::get(i64, 1);
+
   // Allocate program memory
-  auto *const arrayType = llvm::ArrayType::get(builder.getInt8Ty(), byteCount);
+  auto *const arrayType = llvm::ArrayType::get(i8, byteCount);
   auto *const initializer = llvm::ConstantAggregateZero::get(arrayType);
   auto *const bytes = new llvm::GlobalVariable(
       *module, arrayType, false, llvm::GlobalVariable::CommonLinkage,
       initializer, "bytes");
 
+  // Declare putchar function
+  auto *const putcharType = llvm::FunctionType::get(i32, {i32}, false);
+  auto *const putcharFunc = module->getOrInsertFunction(
+      "putchar", putcharType);
+
   // Create main function
-  auto *const funcType = llvm::FunctionType::get(builder.getInt32Ty(), false);
+  auto *const mainType = llvm::FunctionType::get(i32, false);
   auto *const mainFunc = llvm::Function::Create(
-      funcType, llvm::Function::ExternalLinkage, "main", module.get());
+      mainType, llvm::Function::ExternalLinkage, "main", module.get());
   auto *const entry = llvm::BasicBlock::Create(ctx, "entry", mainFunc);
   builder.SetInsertPoint(entry);
 
-  auto *const pos = builder.CreateAlloca(builder.getInt64Ty(), nullptr, "pos");
-  builder.CreateStore(llvm::ConstantInt::get(builder.getInt64Ty(), 0), pos);
+  // Current position
+  auto *const pos = builder.CreateAlloca(i64, nullptr, "pos");
+  builder.CreateStore(zeroI64, pos);
 
-  builder.CreateRet(llvm::ConstantInt::get(builder.getInt32Ty(), 0));
+  for (auto const instr : instrs) {
+    switch (instr) {
+    case Instr::INC_POS: {
+      auto *const posVal = builder.CreateLoad(pos);
+      builder.CreateStore(builder.CreateAdd(posVal, oneI64), pos);
+    } break;
+    case Instr::DEC_POS: {
+      auto *const posVal = builder.CreateLoad(pos);
+      builder.CreateStore(builder.CreateSub(posVal, oneI64), pos);
+    } break;
+    case Instr::INC_BYTE: {
+      auto *const posVal = builder.CreateLoad(pos);
+      auto *const byte = builder.CreateInBoundsGEP(bytes, {zeroI64, posVal});
+      auto *const byteVal = builder.CreateLoad(byte);
+      builder.CreateStore(builder.CreateAdd(byteVal, oneI8), byte);
+    } break;
+    case Instr::DEC_BYTE: {
+      auto *const posVal = builder.CreateLoad(pos);
+      auto *const byte = builder.CreateInBoundsGEP(bytes, {zeroI64, posVal});
+      auto *const byteVal = builder.CreateLoad(byte);
+      builder.CreateStore(builder.CreateSub(byteVal, oneI8), byte);
+    } break;
+    case Instr::OUTPUT: {
+      auto *const posVal = builder.CreateLoad(pos);
+      auto *const byte = builder.CreateInBoundsGEP(bytes, {zeroI64, posVal});
+      auto *const byteVal = builder.CreateLoad(byte);
+      auto *const intVal = builder.CreateIntCast(byteVal, i32, false);
+      builder.CreateCall(putcharFunc, {intVal});
+    } break;
+    case Instr::LOOP_START:
+      break;
+    case Instr::LOOP_END:
+      break;
+    }
+  }
+
+  builder.CreateRet(llvm::ConstantInt::get(i32, 0));
 
   return module;
 }
 
 int main(int argc, char *argv[]) {
-  auto const module(createMainModule(30000));
+  InstrList instrs = {Instr::INC_BYTE, Instr::OUTPUT};
+  auto const module(createMainLlvmModule(30000, instrs));
   module->dump();
 
   return 0;
