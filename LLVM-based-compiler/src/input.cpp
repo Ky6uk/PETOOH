@@ -48,7 +48,7 @@ std::string const formatCharPosition(size_t const lineIdx,
   return std::to_string(lineIdx + 1) + ":" + std::to_string(chrIdx + 1);
 }
 
-InstrTokenList const readInstructions(std::istream &in) {
+InstrTokenList readInstructions(std::istream &in) {
   InstrTokenList tokens;
 
   size_t lineIdx = 0;
@@ -77,8 +77,8 @@ InstrTokenList const readInstructions(std::istream &in) {
   return tokens;
 }
 
-std::string const createLoopsErrorMessage(InstrTokenList const &unclosedLoops,
-                                          InstrTokenList const &unopenedLoops) {
+std::string createLoopsErrorMessage(InstrTokenList const &unclosedLoops,
+                                    InstrTokenList const &unopenedLoops) {
   std::ostringstream errStream;
   for (auto const &token : unopenedLoops) {
     errStream << "Unopened loop at line "
@@ -124,7 +124,7 @@ void checkLoops(InstrTokenList const &instrTokens) {
 }
 }
 
-InstrList const readAndCheckInstructions(std::istream &in) {
+InstrList readAndCheckInstructions(std::istream &in) {
   InstrTokenList const tokens(readInstructions(in));
   checkLoops(tokens);
 

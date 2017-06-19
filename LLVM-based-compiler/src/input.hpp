@@ -6,6 +6,6 @@
 #include <iostream>
 
 // Exits the program if something goes wrong
-InstrList const readAndCheckInstructions(std::istream &in);
+InstrList readAndCheckInstructions(std::istream &in);
 
 #endif // INPUT_HPP
