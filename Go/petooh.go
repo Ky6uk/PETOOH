@@ -2,8 +2,8 @@ package petooh
 
 import (
 	"bufio"
+	"errors"
 	"io"
-	"log"
 	"strings"
 )
 
@@ -22,7 +22,7 @@ const (
 //
 // r should contains source code
 // w will get result output
-func Process(r io.Reader, w io.Writer) {
+func Process(r io.Reader, w io.Writer) error {
 	var buffer string
 	var exit bool
 	level := 0
@@ -37,7 +37,7 @@ func Process(r io.Reader, w io.Writer) {
 		if err == io.EOF {
 			exit = true
 		} else if err != nil {
-			log.Fatal(err)
+			return errors.New("error reading from file:" + err.Error())
 		}
 
 		if !strings.ContainsRune(validRunes, c) && !exit {
@@ -74,6 +74,9 @@ func Process(r io.Reader, w io.Writer) {
 				operations[level] = append(operations[level], buffer)
 			} else {
 				pointer--
+				if pointer < 0 {
+					return errors.New("data cell pointer is negative")
+				}
 			}
 			buffer = ""
 		case koJmp:
@@ -83,7 +86,6 @@ func Process(r io.Reader, w io.Writer) {
 					operations = append(operations, []string{})
 				}
 				operations[level] = make([]string, 0)
-				// log.Println("jmp:", buffer, level)
 				buffer = ""
 			}
 		case koRet:
@@ -102,12 +104,18 @@ func Process(r io.Reader, w io.Writer) {
 							}
 						case koDecPtr:
 							pointer--
+							if pointer < 0 {
+								return errors.New("data cell pointer is negative")
+							}
 						case koOut:
 							w.Write([]byte(string(cells[pointer])))
 						}
 					}
 				}
 				level--
+				if level < 0 {
+					return errors.New("operation level is negative")
+				}
 				buffer = ""
 			}
 		case koOut:
@@ -125,5 +133,7 @@ func Process(r io.Reader, w io.Writer) {
 			buffer = buffer + string(c)
 		}
 	}
+
+	return nil
 
 }

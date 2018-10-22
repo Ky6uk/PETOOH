@@ -34,7 +34,10 @@ func main() {
 	defer file.Close()
 
 	// process file
-	petooh.Process(file, os.Stdout)
+	err = petooh.Process(file, os.Stdout)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println()
 }

@@ -19,7 +19,7 @@ import (
 	petooh "github.com/Ky6uk/PETOOH/Go"
 )
 ...
-petooh.Process(r, w)
+err := petooh.Process(r, w)
 ```
 
 or run example/run.go with path to source file as parameter
