@@ -7,7 +7,7 @@ PETOOH interpreter written in [Go](https://golang.org/).
 Import package 
 
 ```
-go get github.com/Ky6uk/PETOOH/Go
+go get github.com/Ky6uk/PETOOH/Go/petooh
 ```
 
 and use Process() method
@@ -16,7 +16,7 @@ and use Process() method
 package main
 
 import (
-	petooh "github.com/Ky6uk/PETOOH/Go"
+	petooh "github.com/Ky6uk/PETOOH/Go/petooh"
 )
 ...
 err := petooh.Process(r, w)

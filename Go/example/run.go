@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	petooh "github.com/Ky6uk/PETOOH/Go"
+	"github.com/Ky6uk/PETOOH/Go/petooh"
 )
 
 func usage() {
