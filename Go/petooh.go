@@ -2,10 +2,8 @@ package petooh
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
-	"os"
 	"strings"
 )
 
@@ -19,11 +17,6 @@ const (
 	koRet      = "kud"
 	validRunes = "adehkKoOru"
 )
-
-func usage() {
-	fmt.Printf("Usage: %s filepath\n", os.Args[0])
-	os.Exit(0)
-}
 
 // Process function parses and processes source code commands
 //
