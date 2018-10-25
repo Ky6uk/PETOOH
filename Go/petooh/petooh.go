@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"io"
+	"log"
 	"strings"
 )
 
@@ -17,6 +18,25 @@ const (
 	koRet      = "kud"
 	validRunes = "adehkKoOru"
 )
+
+var koCommands = []string{
+	koIncPtr,
+	koDecPtr,
+	koInc,
+	koDec,
+	koOut,
+	koJmp,
+	koRet,
+}
+
+func isCMDSyntaxOK(cmd string) bool {
+	for _, koCMD := range koCommands {
+		if strings.HasPrefix(koCMD, cmd) {
+			return true
+		}
+	}
+	return false
+}
 
 // Process function parses and processes source code commands
 //
@@ -123,8 +143,14 @@ func Process(r io.Reader, w io.Writer) error {
 				operations[level] = append(operations[level], buffer)
 			} else {
 				w.Write([]byte(string(cells[pointer])))
+				log.Println()
+				log.Println(cells[pointer])
 			}
 			buffer = ""
+		default:
+			if !isCMDSyntaxOK(buffer) {
+				return errors.New("wrong command: " + buffer)
+			}
 		}
 
 		if exit {
