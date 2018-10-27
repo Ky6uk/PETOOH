@@ -16,7 +16,7 @@ and use Process() method
 package main
 
 import (
-	petooh "github.com/Ky6uk/PETOOH/Go/petooh"
+	"github.com/Ky6uk/PETOOH/Go/petooh"
 )
 ...
 err := petooh.Process(r, w)

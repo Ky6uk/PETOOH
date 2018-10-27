@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"io"
-	"log"
 	"strings"
 )
 
@@ -143,8 +142,6 @@ func Process(r io.Reader, w io.Writer) error {
 				operations[level] = append(operations[level], buffer)
 			} else {
 				w.Write([]byte(string(cells[pointer])))
-				log.Println()
-				log.Println(cells[pointer])
 			}
 			buffer = ""
 		default:
