@@ -18,6 +18,25 @@ const (
 	validRunes = "adehkKoOru"
 )
 
+var koCommands = []string{
+	koIncPtr,
+	koDecPtr,
+	koInc,
+	koDec,
+	koOut,
+	koJmp,
+	koRet,
+}
+
+func isCMDSyntaxOK(cmd string) bool {
+	for _, koCMD := range koCommands {
+		if strings.HasPrefix(koCMD, cmd) {
+			return true
+		}
+	}
+	return false
+}
+
 // Process function parses and processes source code commands
 //
 // r should contains source code
@@ -125,6 +144,10 @@ func Process(r io.Reader, w io.Writer) error {
 				w.Write([]byte(string(cells[pointer])))
 			}
 			buffer = ""
+		default:
+			if !isCMDSyntaxOK(buffer) {
+				return errors.New("wrong command: " + buffer)
+			}
 		}
 
 		if exit {
