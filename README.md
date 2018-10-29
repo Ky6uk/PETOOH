@@ -1,5 +1,5 @@
-PETOOH – a fundamentally new programming language
-==================================================
+:rooster: PETOOH – a fundamentally new programming language
+=========================+++++++++=========================
 
 Basics
 ------
