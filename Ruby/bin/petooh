@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+require 'petooh'
+
+# Parse args.
+case ARGV
+when [], ["-h"], ["--help"]
+  puts <<-HELP
+Usage: ruby #{File.basename(__FILE__)} file.koko
+  HELP
+  exit
+end
+file = ARGV[0]
+# Run!
+include PETOOH
+File.open(file) do |io|
+  program = parse(io)
+  run program
+end

@@ -1,0 +1,115 @@
+require 'open-uri'
+
+# ---------------
+# :section: Tasks
+# ---------------
+
+file "gen/lib/petooh.rb" => "lib/petooh.peg" do |task|
+  peg2rb task.source, prepare_dir_for(task.name)
+end
+
+file "petooh.rb" => ["gen/lib/petooh.rb", "bin/petooh"] do |task|
+  gen_file(task.sources[1], prepare_dir_for(task.name)) do |content|
+    content.gsub(/require\s+['"]petooh['"]/) do |match|
+      "# #{match}\n"\
+      "#{File.read(task.sources[0])}"
+    end
+  end
+end
+
+file "gen/petooh.gemspec" => ["petooh.gemspec.erb", "../LICENSE"] do |task|
+  erb task.source, prepare_dir_for(task.name)
+end
+
+file "gen/LICENSE" => "../LICENSE" do |task|
+  cp task.source, prepare_dir_for(task.name)
+end
+
+file "gen/README" => "README.md" do |task|
+  cp task.source, prepare_dir_for(task.name)
+end
+
+GEM_FILES = <<LIST.lines.map(&:strip)
+  gen/lib/petooh.rb
+  bin/petooh
+  gen/petooh.gemspec
+  README.md
+  gen/README
+  gen/LICENSE
+  .yardopts
+LIST
+
+task gem: GEM_FILES do
+  sh "gem build gen/petooh.gemspec"
+end
+
+task all: ["petooh.rb", :gem]
+
+task default: :all
+
+task :clean do
+  rm_rf "gen"
+  FileList["*.gem"].each { |f| rm f }
+end
+
+# ---------------
+# :section: Utils
+# ---------------
+
+#
+# It performs following replacements in +file+:
+# * "$Generated$" is replaced with
+#   <tt>"Generated from "{source_file}" on {current date}"</tt>.
+# 
+def expand_standard_macros(file, source_file)
+  log "expand_standard_macros #{file}"
+  File.write(
+    file,
+    File.read(file).
+      gsub("$Generated$", %(Generated from "#{source_file}" on #{Time.now}))
+  )
+end
+
+def log(msg)
+  STDERR.puts msg
+end
+
+def erb src_file, dest_file
+  sh "erb -T 2 #{src_file} > #{dest_file}"
+  expand_standard_macros(dest_file, src_file)
+end
+
+def gen_file source_file, dest_file, &content_f
+  log "gen #{dest_file}"
+  File.write(dest_file, content_f.(File.read(source_file)))
+  expand_standard_macros(dest_file, source_file)
+end
+
+# 
+# Creates directory for +file+ if it does not exist.
+# 
+# It returns +file+.
+# 
+def prepare_dir_for(file)
+  mkdir_p File.dirname(file)
+  return file
+end
+
+def peg2rb src_file, dest_file
+  peg2rb = "peg2rb.rb"
+  # Ensure gpl is present.
+  if not File.file? peg2rb then
+    begin
+      STDERR.puts %(It looks like "#{peg2rb}" is not present. I will try to download it for you.)
+      open("https://raw.githubusercontent.com/LavirtheWhiolet/self-bootstrap/master/peg2rb.rb") do |io|
+        File.write(peg2rb, io.read)
+      end
+    rescue
+      raise %("#{peg2rb}" is not present; download it from "https://github.com/LavirtheWhiolet/self-bootstrap/blob/master/peg2rb.rb")
+    end
+  end
+  # 
+  sh "ruby #{peg2rb} #{src_file} > #{dest_file}"
+  #
+  expand_standard_macros(dest_file, src_file)
+end

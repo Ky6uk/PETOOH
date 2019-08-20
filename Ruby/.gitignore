@@ -1,0 +1,4 @@
+peg2rb.rb
+gen/*
+*.gem
+doc/*
