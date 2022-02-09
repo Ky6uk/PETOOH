@@ -1,6 +1,8 @@
 :rooster: PETOOH – a fundamentally new programming language
 ===========================================================
 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Ky6uk_PETOOH&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Ky6uk_PETOOH) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Ky6uk_PETOOH&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Ky6uk_PETOOH) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Ky6uk_PETOOH&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Ky6uk_PETOOH) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Ky6uk_PETOOH&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Ky6uk_PETOOH)
+
 Basics
 ------
 
