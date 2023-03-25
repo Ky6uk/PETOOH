@@ -1,0 +1,25 @@
+[package]
+name = "koko"
+description = "Petooh interpreter written in Rust"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+log = "0.4"
+smallvec = "1.10"
+smol_str = "0.1"
+
+[dependencies.env_logger]
+version = "0.10"
+default-features = false 
+features = ["auto-color"]
+
+[profile.dev]
+strip = true 
+debug = false
+
+[profile.release]
+strip = true 
+lto = true 
+codegen-units = 1 
