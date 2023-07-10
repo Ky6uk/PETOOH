@@ -19,7 +19,7 @@
     // constructor desu
     var Petooh = function (options) {
         this.options = options || {};
-        this.filter = new RegExp(/^[adehkKoOru]$/);
+        this.filter = new RegExp('^[adehkKoOru]$');
 
         this.cleanBrain();
     };
