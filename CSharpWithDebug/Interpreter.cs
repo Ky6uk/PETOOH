@@ -2,17 +2,27 @@
 
 public class Interpreter
 {
-    private const int MAX_MEM = 65535;
-
-    private readonly byte[] _memory = new byte[MAX_MEM];
+    private readonly List<byte> _memory = new() { 0 };
     public IReadOnlyList<byte> Memory => _memory;
     public int MemoryPointer { get; private set; }
     public int ProgramPointer { get; private set; }
-    public string[] Lexemes { get; private set; }
+    public string[] Lexemes { get; private set; } = Array.Empty<string>();
 
     public void Load(string code)
     {
         Lexemes = Parser.ToLexemes(code);
+    }
+
+    void IncMemPtr() 
+    {
+        if (MemoryPointer == _memory.Count - 1)
+            _memory.Add(0);
+        MemoryPointer++;
+    }
+
+    void DecMemPtr()
+    {
+        MemoryPointer--;
     }
 
     public bool Next(Action<string> output)
@@ -24,8 +34,8 @@ public class Interpreter
         {
             case Language.OP_INC:_memory[MemoryPointer]++; break;
             case Language.OP_DEC:_memory[MemoryPointer]--; break;
-            case Language.OP_INCPTR: MemoryPointer++; break;
-            case Language.OP_DECPTR: MemoryPointer--; break;
+            case Language.OP_INCPTR: IncMemPtr(); break;
+            case Language.OP_DECPTR: DecMemPtr(); break;
             case Language.OP_OUT: output(((char)_memory[MemoryPointer]).ToString()); break;
             case Language.OP_JMP:
                 if (_memory[MemoryPointer] == 0)

@@ -6,21 +6,54 @@ public class DebugRunner : IRunner
 {
     private readonly StringBuilder _out = new();
 
+    private void PrintStructured(IEnumerable<string> lexemes, int pc)
+    {
+        int counter = 0;
+        int shift = 0;
+        var split = "";
+        foreach (var lexeme in lexemes)
+        {
+            var print = lexeme;
+            if (counter == pc)
+                print = $"|{lexeme}|";
+            if (lexeme == Language.OP_JMP)
+                shift++;
+            if (lexeme == Language.OP_RET)
+                shift--;
+            if (lexeme is Language.OP_RET or Language.OP_JMP)
+            {
+                print = $"\n{print}\n";
+                if (lexeme == Language.OP_RET)
+                    print += "\n";
+                Console.Write(print + new string(' ', shift * 2));
+                split = "";
+            }
+            else
+            {
+                Console.Write(split + print);
+                split = " ";
+            }
+
+            counter++;
+        }
+        Console.WriteLine();
+    }
+
     private void PrintDebug(Interpreter interpreter)
     {
         var dbg = "nop";
         if (interpreter.ProgramPointer < interpreter.Lexemes.Length)
-            dbg = ToDbg(interpreter.Lexemes[interpreter.ProgramPointer]);
-
-        var dbgs = interpreter.Lexemes.Select(ToDbg).ToArray();
+            dbg = interpreter.Lexemes[interpreter.ProgramPointer];
 
         Console.Clear();
-        Console.WriteLine(string.Join("", dbgs.Select((x, i) => i == interpreter.ProgramPointer ? $"|{x}|":x)));
-        Console.WriteLine($"output: {_out}");
+
+        PrintStructured(interpreter.Lexemes, interpreter.ProgramPointer);
+
+        Console.WriteLine($"\noutput: {_out}");
         Console.WriteLine("pc = " + interpreter.ProgramPointer + " |" + dbg +"|");
         Console.WriteLine("mem ptr = " + interpreter.MemoryPointer);
         Console.Write("memory:");
-        for (int i = 0; i < interpreter.MemoryPointer + 50; i++)
+        for (int i = 0; i < interpreter.Memory.Count; i++)
         {
             Console.Write(i == interpreter.MemoryPointer ? $" |{interpreter.Memory[i]}|" : $" {interpreter.Memory[i]}");
         }
@@ -37,17 +70,6 @@ public class DebugRunner : IRunner
     {
         _out.Append(str);
     }
-
-    private static string ToDbg(string x) => x switch
-    {
-        Language.OP_INC => "+",
-        Language.OP_DEC => "-",
-        Language.OP_OUT => ".",
-        Language.OP_INCPTR => ">",
-        Language.OP_DECPTR => "<",
-        Language.OP_JMP => "[",
-        Language.OP_RET => "]",
-    };
 
     public void Run(Interpreter interpreter)
     {
