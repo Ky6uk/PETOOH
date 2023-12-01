@@ -4,6 +4,7 @@ public static class Parser
 {
     public static string[] ToLexemes(string text)
     {
+        text += " ";
         var validChars = new HashSet<char>(
             Language.OP_DECPTR.ToCharArray()
                 .Union(Language.OP_INCPTR.ToCharArray())
@@ -18,9 +19,6 @@ public static class Parser
         bool wait = false;
         foreach (var ch in text)
         {
-            if (!validChars.Contains(ch))
-                continue;
-
             if (wait && ch != 'a')
             {
                 lexemes.Add(buf);
@@ -31,6 +29,9 @@ public static class Parser
             {
                 wait = false;
             }
+
+            if (!validChars.Contains(ch))
+                continue;
 
             var cmd = buf + ch;
             if (cmd is Language.OP_INC

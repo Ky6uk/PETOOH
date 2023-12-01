@@ -1,5 +1,7 @@
 ﻿using petooh;
 
+args = new []{"c:\\dev\\ttt\\PETOOH\\CSharpWithDebug\\bin\\Debug\\net8.0\\hello.koko", "-d"};
+
 if (args.Length > 0)
 {
     try

@@ -15,7 +15,7 @@ public class DebugRunner : IRunner
         var dbgs = interpreter.Lexemes.Select(ToDbg).ToArray();
 
         Console.Clear();
-        Console.WriteLine(string.Join(" ", dbgs.Select((x, i) => i == interpreter.ProgramPointer ? $"|{x}|":x)));
+        Console.WriteLine(string.Join("", dbgs.Select((x, i) => i == interpreter.ProgramPointer ? $"|{x}|":x)));
         Console.WriteLine($"output: {_out}");
         Console.WriteLine("pc = " + interpreter.ProgramPointer + " |" + dbg +"|");
         Console.WriteLine("mem ptr = " + interpreter.MemoryPointer);
@@ -42,11 +42,11 @@ public class DebugRunner : IRunner
     {
         Language.OP_INC => "+",
         Language.OP_DEC => "-",
-        Language.OP_OUT => "O",
-        Language.OP_INCPTR => "->",
-        Language.OP_DECPTR => "<-",
-        Language.OP_JMP => "(",
-        Language.OP_RET => ")",
+        Language.OP_OUT => ".",
+        Language.OP_INCPTR => ">",
+        Language.OP_DECPTR => "<",
+        Language.OP_JMP => "[",
+        Language.OP_RET => "]",
     };
 
     public void Run(Interpreter interpreter)
