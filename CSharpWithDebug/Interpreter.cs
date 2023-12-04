@@ -2,7 +2,7 @@
 
 public class Interpreter
 {
-    private readonly List<byte> _memory = new() { 0 };
+    private readonly List<byte> _memory = new(new byte[16]);
     public IReadOnlyList<byte> Memory => _memory;
     public int MemoryPointer { get; private set; }
     public int ProgramPointer { get; private set; }
@@ -13,10 +13,10 @@ public class Interpreter
         Lexemes = Parser.ToLexemes(code);
     }
 
-    void IncMemPtr() 
+    void IncMemPtr()
     {
         if (MemoryPointer == _memory.Count - 1)
-            _memory.Add(0);
+            _memory.AddRange(new byte[16]);
         MemoryPointer++;
     }
 
